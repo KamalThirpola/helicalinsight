@@ -12,27 +12,32 @@ This change adds MongoDB JDBC support to the Helical Insight datasource connecti
 
 Configure the datasource with the MongoDB JDBC driver class:
 
-`mongodb.jdbc.MongoDriver`
+`com.mongodb.jdbc.MongoDriver`
 
-Use the MongoDB JDBC connection string format, which begins with the `jdbc:` prefix. Example:
+Use a MongoDB SQL Interface JDBC connection string beginning with the `jdbc:` prefix. Example:
 
-`jdbc:mongodb://<host-or-cluster>/<database>`
+`jdbc:mongodb://[username:password]@[host].a.query.mongodb.net/<databaseName>`
 
-Authentication and TLS options should be supplied through the connection string or datasource configuration supported by the target MongoDB SQL deployment.
+For the MongoDB JDBC driver, the target database may also need to be supplied as a connection property, for example:
 
-The connection must be configured in the same datasource mechanism used by the existing Helical Insight JDBC drivers, with `MongoConnectionFactory` selected as the connection provider where the application configuration expects a provider class.
+```java
+Properties properties = new Properties();
+properties.setProperty("database", "<databaseName>");
+Connection connection = DriverManager.getConnection("<connectionString>", properties);
+```
 
-## Build note
+Authentication and TLS options should be supplied through the connection string or datasource configuration supported by the target MongoDB SQL deployment. Special characters in connection strings must be URL encoded.
 
-The project must be built with a JDK version supported by the project's Maven compiler configuration. If Maven reports an `invalid target release` error, use the JDK configured for the project or adjust the compiler target before validating the full build.
+The connection must be configured through Helical Insight's existing datasource mechanism, using the configured connection provider and JDBC driver class in the same way as other JDBC-backed datasources.
 
 ## Validation
 
 1. Refresh Maven dependencies.
-2. Configure a MongoDB JDBC datasource.
-3. Test the datasource connection from Helical Insight.
-4. Run the relevant Maven module build and tests.
+2. Configure a MongoDB SQL Interface JDBC datasource using `com.mongodb.jdbc.MongoDriver`.
+3. Verify that the connection string begins with `jdbc:mongodb://`.
+4. Test the datasource connection from Helical Insight.
+5. Run the relevant Maven module build and tests with a JDK supported by the project's Maven compiler configuration.
 
 ## Important
 
-MongoDB's JDBC driver is intended for the MongoDB SQL interface and compatible deployments. A regular MongoDB Java driver connection is not interchangeable with `java.sql.Connection`, which is why this integration uses the JDBC driver in Helical Insight's existing JDBC-based datasource pipeline.
+MongoDB's JDBC driver is intended for the MongoDB SQL Interface and compatible deployments. A regular MongoDB Java driver connection is not interchangeable with `java.sql.Connection`, which is why this integration uses the JDBC driver in Helical Insight's existing JDBC-based datasource pipeline.
