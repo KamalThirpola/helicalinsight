@@ -15,11 +15,11 @@
     </parent>
 
     <dependencies>
-        <!-- MongoDB Java driver used by MongoConnectionFactory -->
+        <!-- JDBC driver required by Helical Insight's java.sql based datasource pipeline -->
         <dependency>
             <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>${mongo.java.driver}</version>
+            <artifactId>mongodb-jdbc</artifactId>
+            <version>2.1.0</version>
         </dependency>
     </dependencies>
 
