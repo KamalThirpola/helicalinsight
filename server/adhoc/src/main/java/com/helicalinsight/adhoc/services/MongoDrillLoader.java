@@ -1,19 +1,25 @@
 
 package com.helicalinsight.adhoc.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.helicalinsight.datasource.GsonUtility;
 import com.helicalinsight.datasource.nosql.NoSQLLoader;
 import com.helicalinsight.efw.exceptions.EfwServiceException;
-import com.mongodb.*;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.mongodb.DB;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoClientURI;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 
 
 /**
@@ -228,7 +234,7 @@ class MongoModel {
                 List<ServerAddress> seeds = new ArrayList<>();
                 seeds.add(new ServerAddress(host));
                 if (authMechanism.equalsIgnoreCase("MongoCR")) {
-                    credentials.add(MongoCredential.createMongoCRCredential(username, database, password.toCharArray()));
+                    credentials.add(MongoCredential.createCredential(username, database, password.toCharArray()));
                 } else if (authMechanism.equalsIgnoreCase("ScramSha1")) {
                     credentials.add(MongoCredential.createScramSha1Credential(username, database, password.toCharArray()));
                 } else if (authMechanism.equalsIgnoreCase("Plain")) {
