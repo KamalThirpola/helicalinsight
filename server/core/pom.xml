@@ -14,6 +14,15 @@
         <relativePath>..</relativePath>
     </parent>
 
+    <dependencies>
+        <!-- JDBC driver required by Helical Insight's java.sql based datasource pipeline -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-jdbc</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <finalName>${name}-${parent.version}</finalName>
         <plugins>
@@ -26,16 +35,16 @@
                 <artifactId>maven-jar-plugin</artifactId>
             </plugin>
             <plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>aspectj-maven-plugin</artifactId>
-					<configuration>
-					<skip>${aspectj.skip}</skip>
-				       <includes>
-				        	<include>com/helicalinsight/admin/service/impl/UserDetailsServiceImpl.java</include>
-				        	<include>com/helicalinsight/admin/customauth/CustomUserDetailService.java</include>
-				        	<include>com/helicalinsight/efw/serviceframework/ServiceUtils.java</include>
-				       </includes>
-				    </configuration>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <configuration>
+                    <skip>${aspectj.skip}</skip>
+                    <includes>
+                        <include>com/helicalinsight/admin/service/impl/UserDetailsServiceImpl.java</include>
+                        <include>com/helicalinsight/admin/customauth/CustomUserDetailService.java</include>
+                        <include>com/helicalinsight/efw/serviceframework/ServiceUtils.java</include>
+                    </includes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
